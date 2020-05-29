@@ -6,7 +6,7 @@ Design Patterns implemented in Kotlin
 |[Creational](#creational)|[Structural](#structural)|[Behavioral](#behavioral)|
 |-------------------------|-------------------------|-------------------------|
 |[Factory Method](#factory-method)|Adapter|Observer|
-|Abstract Factory|||
+|[Abstract Factory](#abstract-factory)|||
 
 Creational
 ==========
