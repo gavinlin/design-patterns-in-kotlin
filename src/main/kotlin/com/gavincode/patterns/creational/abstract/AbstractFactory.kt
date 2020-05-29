@@ -1,76 +1,7 @@
-Design Patterns implemented in Kotlin
-=====================================
+package com.gavincode.patterns.creational.abstract
 
-## Table of Contents
+import java.lang.IllegalArgumentException
 
-|[Creational](#creational)|[Structural](#structural)|[Behavioral](#behavioral)|
-|-------------------------|-------------------------|-------------------------|
-|[Factory Method](#factory-method)|Adapter|Observer|
-|Abstract Factory|||
-
-Creational
-==========
-
-Factory Method
---------------
-Factory Method lets a class defer instantiation to subclasses.
-
-example:
-
-```kotlin
-enum class TransportType {
-    TRUCK, SHIP
-}
-
-interface Transport {
-    fun deliver()
-}
-
-class Truck: Transport {
-    override fun deliver() {
-        println("Deliver by truck")
-    }
-}
-
-class Ship: Transport {
-    override fun deliver() {
-        println("Deliver by ship")
-    }
-}
-
-class LogisticFactory {
-    companion object {
-        fun createTransport(transportType: TransportType): Transport {
-            return when(transportType) {
-                TransportType.TRUCK -> Truck()
-                TransportType.SHIP -> Ship()
-            }
-        }
-    }
-}
-```
-
-usage:
-
-```kotlin
-fun main() {
-    val transport = LogisticFactory.createTransport(TransportType.TRUCK)
-    transport.deliver()
-}
-```
-
-Result:
-
-```shell script
-Deliver by truck
-```
-
-Abstract Factory
-----------------
-
-Example:
-
-```kotlin
 enum class TransportType {
     CAR, MOTORBIKE,
     SHIP, BOAT
@@ -144,16 +75,8 @@ class LogisticFactory {
         }
     }
 }
-```
 
-Usage:
-
-```kotlin
+fun main() {
     val carDeliver = LogisticFactory.createTransport(TransportType.CAR)
     carDeliver.deliver()
-```
-
-Result:
-```shell script
-Deliver by car
-```
+}
