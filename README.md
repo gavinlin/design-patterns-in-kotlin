@@ -5,7 +5,7 @@ Design Patterns implemented in Kotlin
 
 |[Creational](#creational)|[Structural](#structural)|[Behavioral](#behavioral)|
 |-------------------------|-------------------------|-------------------------|
-|[Factory Method](#factory-method)|Adapter|Observer|
+|[Factory Method](#factory-method)|Adapter|Strategy|
 |[Abstract Factory](#abstract-factory)|||
 |[Builder](#builder)|||
 
@@ -223,3 +223,30 @@ Result:
 ```shell script
 Dialog(title=Title, content=Hello, confirmText=OK, cancelText=CANCEL)
 ```
+
+Structural
+==========
+
+Behavioral
+==========
+
+Strategy
+--------
+Example:
+```kotlin
+Dialog(title=Title, content=Hello, confirmText=OK, cancelText=CANCEL)
+```
+Usage:
+```kotlin
+    println("Sum even numbers ${sumWithCondition(list) {it % 2 == 0}}")
+    println("Sum odd numbers ${sumWithCondition(list) {it % 2 != 0}}")
+    println("Sum all numbers ${sumWithCondition(list) { true }}")
+```
+Result:
+```shell script
+Sum even numbers 20
+Sum odd numbers 16
+Sum all numbers 36
+```
+
+
