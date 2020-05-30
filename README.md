@@ -5,7 +5,7 @@ Design Patterns implemented in Kotlin
 
 |[Creational](#creational)|[Structural](#structural)|[Behavioral](#behavioral)|
 |-------------------------|-------------------------|-------------------------|
-|[Factory Method](#factory-method)|Adapter|Strategy|
+|[Factory Method](#factory-method)|Adapter|[Strategy](#strategy)|
 |[Abstract Factory](#abstract-factory)|||
 |[Builder](#builder)|||
 
@@ -234,7 +234,9 @@ Strategy
 --------
 Example:
 ```kotlin
-Dialog(title=Title, content=Hello, confirmText=OK, cancelText=CANCEL)
+fun sumWithCondition(integers: List<Int>, condition: (a: Int) -> Boolean): Int {
+    return integers.filter { condition(it) }.sum()
+}
 ```
 Usage:
 ```kotlin
