@@ -5,7 +5,7 @@ Design Patterns implemented in Kotlin
 
 |[Creational](#creational)|[Structural](#structural)|[Behavioral](#behavioral)|
 |-------------------------|-------------------------|-------------------------|
-|[Factory Method](#factory-method)|Adapter|[Strategy](#strategy)|
+|[Factory Method](#factory-method)|[Adapter](#adapter)|[Strategy](#strategy)|
 |[Abstract Factory](#abstract-factory)|||
 |[Builder](#builder)|||
 |[Singleton](#singleton)|||
@@ -257,6 +257,57 @@ Result:
 
 Structural
 ==========
+
+Adapter
+------
+
+Example:
+```kotlin
+
+data class ListViewData(val title: String, val content: String)
+
+class ListView {
+    fun showListViewData(list: List<ListViewData>) {
+        for (item in list) {
+            println(item)
+        }
+    }
+}
+
+/**
+ * Remote data is not compatible with LiveViewData
+ */
+data class RemoteData(val remoteTitle: String, val remoteContent: String)
+
+class ListViewDataAdapter {
+    fun toListViewData(remoteData: RemoteData): ListViewData {
+        with(remoteData) {
+            return ListViewData(
+                remoteTitle,
+                remoteContent
+            )
+        }
+    }
+}
+```
+
+Usage:
+```kotlin
+    val listView = ListView()
+    val remoteList = listOf(
+        RemoteData("Breaking news", "broken news"),
+        RemoteData("Hello", "World")
+    )
+//    listView.showListViewData(remoteList) // error
+    val listViewDataAdapter = ListViewDataAdapter()
+    listView.showListViewData(remoteList.map { listViewDataAdapter.toListViewData(it) })
+```
+
+Result:
+```shell script
+ListViewData(title=Breaking news, content=broken news)
+ListViewData(title=Hello, content=World)
+```
 
 Behavioral
 ==========
