@@ -8,6 +8,7 @@ Design Patterns implemented in Kotlin
 |[Factory Method](#factory-method)|Adapter|[Strategy](#strategy)|
 |[Abstract Factory](#abstract-factory)|||
 |[Builder](#builder)|||
+|[Singleton](#singleton)|||
 
 Creational
 ==========
@@ -222,6 +223,36 @@ Usage:
 Result:
 ```shell script
 Dialog(title=Title, content=Hello, confirmText=OK, cancelText=CANCEL)
+```
+
+Singleton
+---------
+[Kotlin object explain](https://www.youtube.com/watch?v=KUk6k865Vgg)
+
+Example:
+
+```kotlin
+object Counter {
+    private var count = 0
+
+    fun count(): Int {
+        return ++count
+    }
+}
+```
+
+Usage:
+
+```kotlin
+    println(Counter.count())
+    println(Counter.count())
+```
+
+Result:
+
+```shell script
+1
+2
 ```
 
 Structural
