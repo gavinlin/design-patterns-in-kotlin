@@ -6,7 +6,7 @@ Design Patterns implemented in Kotlin
 |[Creational](#creational)|[Structural](#structural)|[Behavioral](#behavioral)|
 |-------------------------|-------------------------|-------------------------|
 |[Factory Method](#factory-method)|[Adapter](#adapter)|[Strategy](#strategy)|
-|[Abstract Factory](#abstract-factory)|||
+|[Abstract Factory](#abstract-factory)| |[Observer](#observer)|
 |[Builder](#builder)|||
 |[Singleton](#singleton)|||
 
@@ -333,4 +333,70 @@ Sum odd numbers 16
 Sum all numbers 36
 ```
 
+Observer
+--------
 
+Example:
+
+```kotlin
+interface Observable <T> {
+    fun register(observer: Observer<T>)
+    fun unregister(observer: Observer<T>)
+}
+
+interface Observer<T> {
+    fun notify(t: T)
+}
+
+class WeatherReport: Observable<String> {
+    private val observers: HashSet<Observer<String>> = HashSet()
+
+    fun newReport(report: String) {
+        for (observer in observers) {
+            observer.notify(report)
+        }
+    }
+
+    override fun register(observer: Observer<String>) {
+        observers.add(observer)
+    }
+
+    override fun unregister(observer: Observer<String>) {
+        observers.remove(observer)
+    }
+}
+
+class TVStation: Observer<String> {
+    override fun notify(t: String) {
+        println("TV station got report: $t")
+    }
+
+}
+class EmailReceiver: Observer<String> {
+    override fun notify(t: String) {
+        println("Email receiver got report: $t")
+    }
+}
+```
+
+Usage:
+
+```kotlin
+    val weatherReport = WeatherReport()
+    val emailReceiver = EmailReceiver()
+    val tvStation = TVStation()
+    weatherReport.register(emailReceiver)
+    weatherReport.register(tvStation)
+
+    weatherReport.newReport("Cloudy, Temperature: 23 degrees")
+
+    weatherReport.unregister(emailReceiver)
+    weatherReport.unregister(tvStation)
+```
+
+Result:
+
+```shell script
+TV station got report: Cloudy, Temperature: 23 degrees
+Email receiver got report: Cloudy, Temperature: 23 degrees
+```
