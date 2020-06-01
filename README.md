@@ -11,6 +11,7 @@ Design Patterns implemented in Kotlin
 |[Singleton](#singleton)|[Decorator](#decorator)||
 | |[Facade](#facade)| |
 | |[Flyweight](#flyweight)| |
+| |[Proxy](#proxy)| |
 
 Creational
 ==========
@@ -589,6 +590,50 @@ Example:
 
 [okio](https://github.com/square/okio) library: ByteStrings and Buffers 
 
+Proxy
+-----
+
+Example:
+
+```kotlin
+interface ThirdPartyFileStore {
+    fun getFile(): String
+}
+
+class ThirdPartyFileStoreImpl: ThirdPartyFileStore {
+    override fun getFile(): String {
+        return Base64.getEncoder().encodeToString("confidential.txt".toByteArray())
+    }
+}
+
+class ProxyFileStore(
+    private val thirdPartyFileStore: ThirdPartyFileStore
+): ThirdPartyFileStore {
+    override fun getFile(): String {
+        return thirdPartyFileStore.getFile()
+    }
+
+    fun getFileAndDecode(): String {
+        return String(Base64.getDecoder().decode(getFile()))
+    }
+}
+```
+
+Usage:
+
+```kotlin
+    val proxy = ProxyFileStore(ThirdPartyFileStoreImpl())
+
+    println("Got file ${proxy.getFile()}")
+    println("Got file ${proxy.getFileAndDecode()}")
+```
+
+Result:
+
+```shell script
+Got file Y29uZmlkZW50aWFsLnR4dA==
+Got file confidential.txt
+```
 
 Behavioral
 ==========
