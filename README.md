@@ -13,6 +13,7 @@ Design Patterns implemented in Kotlin
 | |[Flyweight](#flyweight)|[Mediator](#mediator)|
 | |[Proxy](#proxy)|[Memento](#memento)|
 | | |[State](#state)|
+| | |[Template method](#template-method)|
 
 Creational
 ==========
@@ -1143,4 +1144,63 @@ Result:
 Call fetch to update state
 Loading, please be patient
 Show: Done
+```
+
+Template Method
+---------------
+
+Example:
+
+```kotlin
+abstract class Downloader {
+    abstract val url: String
+    private var percentage = 0
+
+    fun startDownload() {
+        println("Start download $url")
+        while (percentage < 100) {
+            percentage += 10
+            onPercentage(percentage)
+        }
+        onDone()
+    }
+
+    protected abstract fun onPercentage(percentage: Int)
+    protected abstract fun onDone()
+}
+
+class VideoDownloader(override val url: String) : Downloader() {
+
+    override fun onDone() {
+        println("$url done")
+    }
+
+    override fun onPercentage(percentage: Int) {
+        println("Downloading..... $percentage%")
+    }
+}
+```
+
+Usage:
+
+```kotlin
+    val videoDownloader = VideoDownloader("https://video")
+    videoDownloader.startDownload()
+```
+
+Result:
+
+```shell script
+Start download https://video
+Downloading..... 10%
+Downloading..... 20%
+Downloading..... 30%
+Downloading..... 40%
+Downloading..... 50%
+Downloading..... 60%
+Downloading..... 70%
+Downloading..... 80%
+Downloading..... 90%
+Downloading..... 100%
+https://video done
 ```
