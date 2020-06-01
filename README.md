@@ -8,7 +8,7 @@ Design Patterns implemented in Kotlin
 |[Factory Method](#factory-method)|[Adapter](#adapter)|[Strategy](#strategy)|
 |[Abstract Factory](#abstract-factory)|[Bridge](#bridge) |[Observer](#observer)|
 |[Builder](#builder)|[Composite](#composite)||
-|[Singleton](#singleton)|||
+|[Singleton](#singleton)|[Decorator](#decorator)||
 
 Creational
 ==========
@@ -492,6 +492,85 @@ Draw view group to 1, 0
 Draw line to 10, 10
 Draw text Hello to 10, 20
 Draw text World to 30, 30
+```
+
+Decorator
+---------
+
+Example:
+
+```kotlin
+interface DataSource {
+    fun writeData(data: String)
+    fun readData(): String
+}
+
+class ConsoleDataSource: DataSource {
+    private var data: String = ""
+
+    override fun writeData(data: String) {
+        this.data = data
+        println("Writing $data into console")
+    }
+
+    override fun readData(): String {
+        return data
+    }
+}
+
+open class DataSourceDecorator(
+    private val wrappee: DataSource
+) : DataSource {
+
+    override fun writeData(data: String) {
+        wrappee.writeData(data)
+    }
+
+    override fun readData(): String {
+        return wrappee.readData()
+    }
+}
+
+class EncryptionDecorator(
+    private val dataSource: DataSource
+): DataSourceDecorator(dataSource) {
+
+    override fun writeData(data: String) {
+        dataSource.writeData(encode(data))
+    }
+
+    override fun readData(): String {
+        return decode(dataSource.readData())
+    }
+
+    private fun encode(data: String): String {
+        return Base64.getEncoder().encodeToString(data.toByteArray())
+    }
+
+    private fun decode(data: String): String {
+        return String(Base64.getDecoder().decode(data))
+    }
+}
+```
+
+Usage:
+
+```kotlin
+    val plainDataSource = ConsoleDataSource()
+    plainDataSource.writeData("Important info")
+
+    val encryptedDataSource = EncryptionDecorator(plainDataSource)
+    encryptedDataSource.writeData("Important info")
+
+    println("Got decrypted data: ${encryptedDataSource.readData()}")
+```
+
+Result:
+
+```shell script
+Writing Important info into console
+Writing SW1wb3J0YW50IGluZm8= into console
+Got decrypted data: Important info
 ```
 
 Behavioral
