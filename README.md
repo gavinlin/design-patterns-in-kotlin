@@ -9,7 +9,7 @@ Design Patterns implemented in Kotlin
 |[Abstract Factory](#abstract-factory)|[Bridge](#bridge) |[Observer](#observer)|
 |[Builder](#builder)|[Composite](#composite)|[Chain of Responsibility](#chain-of-responsibility)|
 |[Singleton](#singleton)|[Decorator](#decorator)|[Command](#command)|
-|[Prototype](#prototype) |[Facade](#facade)| |
+|[Prototype](#prototype) |[Facade](#facade)|[Iterator](#iterator)|
 | |[Flyweight](#flyweight)| |
 | |[Proxy](#proxy)| |
 
@@ -887,4 +887,57 @@ Result:
 Copy text
 Paste text
 Cut text
+```
+
+Iterator
+--------
+
+Example:
+
+```kotlin
+interface Iterator <T> {
+    fun hasNext(): Boolean
+    fun next(): T
+    fun reset()
+}
+
+data class Friend(val name: String)
+
+class MyFriends(
+    private val friends: Array<Friend>
+): Iterator<Friend> {
+    private var position = 0
+
+    override fun hasNext(): Boolean {
+        return position < friends.size
+    }
+
+    override fun next(): Friend {
+        return friends[position++]
+    }
+
+    override fun reset() {
+        position = 0
+    }
+}
+```
+
+Usage:
+
+```kotlin
+    val myFriends = MyFriends(
+        arrayOf(Friend("Tony"), Friend("Tom"), Friend("TT"))
+    )
+
+    while (myFriends.hasNext()) {
+        println(myFriends.next())
+    }
+```
+
+Result:
+
+```shell script
+Friend(name=Tony)
+Friend(name=Tom)
+Friend(name=TT)
 ```
