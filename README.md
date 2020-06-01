@@ -11,7 +11,7 @@ Design Patterns implemented in Kotlin
 |[Singleton](#singleton)|[Decorator](#decorator)|[Command](#command)|
 |[Prototype](#prototype) |[Facade](#facade)|[Iterator](#iterator)|
 | |[Flyweight](#flyweight)|[Mediator](#mediator)|
-| |[Proxy](#proxy)| |
+| |[Proxy](#proxy)|[Memento](#memento)|
 
 Creational
 ==========
@@ -1020,3 +1020,68 @@ myCheckBox is checked true
 myRadioButton is selected 2
 myButton clicked
 ```
+
+Memento
+-------
+
+Example:
+
+```kotlin
+data class Memento(val state: String)
+
+class Originator(var state: String) {
+    fun createMemento(): Memento {
+        return Memento(state)
+    }
+
+    fun restore(memento: Memento) {
+        state = memento.state
+    }
+}
+
+class CareTaker {
+    private val mementoList = ArrayList<Memento>()
+
+    fun saveState(state: Memento) {
+        mementoList.add(state)
+    }
+
+    fun restore(index: Int): Memento {
+        return mementoList[index]
+    }
+}
+```
+
+Usage:
+
+```kotlin
+    val originator = Originator("initial state")
+    val careTaker = CareTaker()
+    careTaker.saveState(originator.createMemento())
+
+    originator.state = "State #1"
+    originator.state = "State #2"
+    careTaker.saveState(originator.createMemento())
+
+    originator.state = "State #3"
+    println("Current State: ${originator.state}")
+
+    originator.restore(careTaker.restore(1))
+    println("Second State: ${originator.state}")
+
+    originator.restore(careTaker.restore(0))
+    println("Third State: ${originator.state}")
+
+    originator.restore(careTaker.restore(1))
+    println("Last State: ${originator.state}")
+```
+
+Result:
+
+```shell script
+Current State: State #3
+Second State: State #2
+Third State: initial state
+Last State: State #2
+```
+
