@@ -10,6 +10,7 @@ Design Patterns implemented in Kotlin
 |[Builder](#builder)|[Composite](#composite)||
 |[Singleton](#singleton)|[Decorator](#decorator)||
 | |[Facade](#facade)| |
+| |[Flyweight](#flyweight)| |
 
 Creational
 ==========
@@ -578,6 +579,16 @@ Facade
 ------
 
 Think about google search, what users see are an input view and a button. Google hides all complexity into their server.
+
+Flyweight
+---------
+
+Rather than create an object each time. we can cache the same object and share it by different clients.
+
+Example:
+
+[okio](https://github.com/square/okio) library: ByteStrings and Buffers 
+
 
 Behavioral
 ==========
