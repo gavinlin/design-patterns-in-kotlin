@@ -12,6 +12,7 @@ Design Patterns implemented in Kotlin
 |[Prototype](#prototype) |[Facade](#facade)|[Iterator](#iterator)|
 | |[Flyweight](#flyweight)|[Mediator](#mediator)|
 | |[Proxy](#proxy)|[Memento](#memento)|
+| | |[State](#state)|
 
 Creational
 ==========
@@ -1085,3 +1086,61 @@ Third State: initial state
 Last State: State #2
 ```
 
+State
+-----
+
+Example:
+
+```kotlin
+sealed class UiState {
+    object Idle: UiState()
+    object Loading: UiState()
+    class Done(val data: String): UiState()
+}
+
+class UI {
+    private var state: UiState = UiState.Idle
+
+    fun showData() {
+        when (val thisState = state) {
+            is UiState.Done -> {
+                println("Show: ${thisState.data}")
+            }
+            is UiState.Loading -> {
+                println("Loading, please be patient")
+            }
+            is UiState.Idle -> {
+                println("Call fetch to update state")
+            }
+        }
+    }
+
+    fun fetch() {
+        state = UiState.Loading
+    }
+
+    fun done(remoteData: String) {
+        state = UiState.Done(remoteData)
+    }
+}
+```
+
+Usage:
+
+```kotlin
+    val ui = UI()
+
+    ui.showData()
+    ui.fetch()
+    ui.showData()
+    ui.done("Done")
+    ui.showData()
+```
+
+Result:
+
+```
+Call fetch to update state
+Loading, please be patient
+Show: Done
+```
