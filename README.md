@@ -9,7 +9,7 @@ Design Patterns implemented in Kotlin
 |[Abstract Factory](#abstract-factory)|[Bridge](#bridge) |[Observer](#observer)|
 |[Builder](#builder)|[Composite](#composite)||
 |[Singleton](#singleton)|[Decorator](#decorator)||
-| |[Facade](#facade)| |
+|[Prototype](#prototype) |[Facade](#facade)| |
 | |[Flyweight](#flyweight)| |
 | |[Proxy](#proxy)| |
 
@@ -256,6 +256,32 @@ Result:
 ```shell script
 1
 2
+```
+
+Prototype
+---------
+
+Example:
+
+```kotlin
+data class News(val title: String, val content: String)
+```
+
+Usage:
+
+```kotlin
+    val firstNews = News("Breaking", "Broken")
+    val secondNews = firstNews.copy()
+
+    println(secondNews)
+    println("Are first news and second news the same? ${firstNews === secondNews}")
+```
+
+Result:
+
+ ```shell script
+News(title=Breaking, content=Broken)
+Are first news and second news the same? false
 ```
 
 Structural
