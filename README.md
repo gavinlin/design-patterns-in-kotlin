@@ -9,6 +9,7 @@ Design Patterns implemented in Kotlin
 |[Abstract Factory](#abstract-factory)|[Bridge](#bridge) |[Observer](#observer)|
 |[Builder](#builder)|[Composite](#composite)||
 |[Singleton](#singleton)|[Decorator](#decorator)||
+| |[Facade](#facade)| |
 
 Creational
 ==========
@@ -572,6 +573,11 @@ Writing Important info into console
 Writing SW1wb3J0YW50IGluZm8= into console
 Got decrypted data: Important info
 ```
+
+Facade
+------
+
+Think about google search, what users see are an input view and a button. Google hides all complexity into their server.
 
 Behavioral
 ==========
