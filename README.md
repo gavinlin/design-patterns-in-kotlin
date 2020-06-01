@@ -14,6 +14,7 @@ Design Patterns implemented in Kotlin
 | |[Proxy](#proxy)|[Memento](#memento)|
 | | |[State](#state)|
 | | |[Template method](#template-method)|
+| | |[Visitor](#visitor)|
 
 Creational
 ==========
