@@ -7,7 +7,7 @@ Design Patterns implemented in Kotlin
 |-------------------------|-------------------------|-------------------------|
 |[Factory Method](#factory-method)|[Adapter](#adapter)|[Strategy](#strategy)|
 |[Abstract Factory](#abstract-factory)|[Bridge](#bridge) |[Observer](#observer)|
-|[Builder](#builder)|[Composite](#composite)||
+|[Builder](#builder)|[Composite](#composite)|[Chain of Responsibility](#chain-of-responsibility)|
 |[Singleton](#singleton)|[Decorator](#decorator)||
 |[Prototype](#prototype) |[Facade](#facade)| |
 | |[Flyweight](#flyweight)| |
@@ -751,4 +751,57 @@ Result:
 ```shell script
 TV station got report: Cloudy, Temperature: 23 degrees
 Email receiver got report: Cloudy, Temperature: 23 degrees
+```
+
+Chain of Responsibility
+-----------------------
+
+Example:
+
+```kotlin
+abstract class View(private val children: List<View>) {
+    fun handleTouchEvent(event: TouchEvent): Boolean {
+        if (onEvent(event)) {
+            return true
+        }
+        for (child in children) {
+            if (child.handleTouchEvent(event)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    abstract fun onEvent(event: TouchEvent): Boolean
+}
+
+class TextView(private val children: List<View>) : View(children) {
+    override fun onEvent(event: TouchEvent): Boolean {
+        println("I am TextView, I don't want to handle the event")
+        return false
+    }
+}
+
+class Button(private val children: List<View>): View(children) {
+    override fun onEvent(event: TouchEvent): Boolean {
+        println("I am Button, Let me handle the event")
+        return true
+    }
+}
+```
+
+Usage:
+
+```kotlin
+    val chain = TextView(listOf(TextView(listOf(Button(listOf(TextView(listOf())))))))
+
+    chain.handleTouchEvent(TouchEvent())
+```
+
+Result:
+
+```shell script
+I am TextView, I don't want to handle the event
+I am TextView, I don't want to handle the event
+I am Button, Let me handle the event
 ```
