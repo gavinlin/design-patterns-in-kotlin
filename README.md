@@ -8,7 +8,7 @@ Design Patterns implemented in Kotlin
 |[Factory Method](#factory-method)|[Adapter](#adapter)|[Strategy](#strategy)|
 |[Abstract Factory](#abstract-factory)|[Bridge](#bridge) |[Observer](#observer)|
 |[Builder](#builder)|[Composite](#composite)|[Chain of Responsibility](#chain-of-responsibility)|
-|[Singleton](#singleton)|[Decorator](#decorator)||
+|[Singleton](#singleton)|[Decorator](#decorator)|[Command](#command)|
 |[Prototype](#prototype) |[Facade](#facade)| |
 | |[Flyweight](#flyweight)| |
 | |[Proxy](#proxy)| |
@@ -804,4 +804,87 @@ Result:
 I am TextView, I don't want to handle the event
 I am TextView, I don't want to handle the event
 I am Button, Let me handle the event
+```
+
+Command
+-------
+
+Example:
+
+```kotlin
+interface Command {
+    fun execute()
+}
+
+class EditorService {
+    fun copy() {
+        println("Copy text")
+    }
+
+    fun cut() {
+        println("Cut text")
+    }
+
+    fun paste() {
+        println("Paste text")
+    }
+}
+
+class CopyCommand(private val editorService: EditorService): Command {
+    override fun execute() {
+        editorService.copy()
+    }
+}
+
+class PasteCommand(private val editorService: EditorService): Command {
+    override fun execute() {
+        editorService.paste()
+    }
+}
+
+class CutCommand(private val editorService: EditorService): Command {
+    override fun execute() {
+        editorService.cut()
+    }
+
+}
+
+typealias OnClickListener = () -> Unit
+class EditorButton(
+    private val onClickListener: OnClickListener
+) {
+    fun click() {
+        onClickListener.invoke()
+    }
+}
+
+class EditorGui(private val editorService: EditorService) {
+    val copyButton = EditorButton {
+        CopyCommand(editorService).execute()
+    }
+    val pasteButton = EditorButton {
+       PasteCommand(editorService).execute()
+    }
+    val cutButton = EditorButton {
+        CutCommand(editorService).execute()
+    }
+}
+```
+
+Usage:
+
+```kotlin
+    val editorGui = EditorGui(EditorService())
+
+    editorGui.copyButton.click()
+    editorGui.pasteButton.click()
+    editorGui.cutButton.click()
+```
+
+Result:
+
+```shell script
+Copy text
+Paste text
+Cut text
 ```
